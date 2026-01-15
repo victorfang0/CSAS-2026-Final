@@ -97,6 +97,5 @@ Run the following scripts in the specified order to reproduce the analysis pipel
 *   `find_center.py`: Uses density clustering to identify the exact center of the House.
 *   `calibrate_coords.py`: Calculates the pixel-to-foot scale factor.
 
-### Documentation Resources
-*   `documentation/papers/`: Contains the full narrative report and analysis chapters.
-*   `documentation/artifacts/`: Contains generated figures (Heatmaps, Maps) with technical descriptor files.
+## 📄 Report
+*   **`Power_Play_Optimization_Report.pdf`**: The full research paper detailing methodology, WPA analysis, and strategic conclusions.
