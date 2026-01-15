@@ -7,7 +7,7 @@
 
 ---
 
-## ⚠️ Data Privacy & Setup
+## Data Privacy & Setup
 **Per CSAS rules, the raw challenge data is not included in this repository as the organizers already possess it.**
 
 ### Comparison
@@ -31,7 +31,7 @@ No external public datasets were used in this analysis. All findings are derived
 
 ---
 
-## 🛠 Reproducibility Instructions
+## Reproducibility Instructions
 
 ### 1. Requirements
 Install the necessary Python libraries:
@@ -69,7 +69,7 @@ Run the following scripts in the specified order to reproduce the analysis pipel
 
 ---
 
-## 📂 File Dictionary
+## File Dictionary
 
 ### 1. Pipeline (`src/pipeline/`)
 *   `feature_engineering.py`: Merges raw `Ends.csv` and `Games.csv` using composite keys and calculates the running Score Differential.
@@ -97,5 +97,5 @@ Run the following scripts in the specified order to reproduce the analysis pipel
 *   `find_center.py`: Uses density clustering to identify the exact center of the House.
 *   `calibrate_coords.py`: Calculates the pixel-to-foot scale factor.
 
-## 📄 Report
+## Report
 *   **`Power_Play_Optimization_Report.pdf`**: The full research paper detailing methodology, WPA analysis, and strategic conclusions.
