@@ -1,33 +1,18 @@
-# Step 3: The AI Model
-*Or: "Teaching a computer to predict the future."*
+# Part 3: Win Probability Model
 
-We have our clean data. Now, we want to answer the big question: **"If I am down by 2 in End 6, will I win?"**
+## 1. The Challenge: Sparse Data
+A common approach to estimating win probability is a simple lookup table (i.e., historical win rates for a given state). However, this method suffers from **data sparsity** in specific scenarios.
+*   *Issue:* Rare game states (e.g., Trailing by 2 in End 6 with Hammer) may have insufficient historical examples to form a statistically significant probability.
 
-## 1. Why we can't just use an Average
-You might ask, *"Professor, why not just search the database for all games where a team was down by 2 in End 6 and count how many won?"*
+## 2. Model Selection: Random Forest
+To address sparsity and capture non-linear interactions, we employed a **Random Forest Classifier**. As an ensemble learning method, it mimics the "Expert Committee" approach by aggregating predictions from multiple decision trees.
 
-That's a great question. The problem is **Sample Size**.
-*   We might only have 3 examples of that *exact* situation.
-*   Maybe in one of them, the team had the best player in the world.
-*   In another, the ice melted.
-*   3 examples isn't enough to trust.
+### Feature Interaction
+The model evaluates features simultaneously, allowing it to learn complex heuristics.
+*   *Example:* Scores in early ends might weigh less than scores in late ends.
+*   *Example:* Identifying that "Hammer" combined with "Trailing" has a different value proposition than "Hammer" with "Leading".
 
-## 2. Enter "The Random Forest"
-Instead of memorizing history, we train an AI to learn **patterns**. We chose an algorithm called the **Random Forest**.
-
-### How it works (The Committee)
-Imagine I give this problem to 100 students (the "Trees").
-*   **Student 1** looks mostly at the Score: *"He's losing, so he'll probably lose."*
-*   **Student 2** looks at the Hammer: *"But he has the Hammer, so he might comeback."*
-*   **Student 3** looks at the End Number: *"It's only End 2, there's plenty of time."*
-
-The "Random Forest" takes the vote of all 100 students.
-*   If 89 students say "Win", the model gives an **89% Win Probability**.
-*   This "wisdom of the crowd" creates a much more accurate prediction than any single rule.
-
-## 3. Our Results
-We graded the model (using a "Test Set" it had never seen before).
-*   **It got an "A" (AUC 0.89).**
-*   This means if you give it two games, one where the team won and one where they lost, it can correctly identify the winner **89% of the time** just by looking at the scoreboard.
-
-Now that we have a "Virtual Expert" that knows success rates, we can use it to test our Power Play strategy.
+## 3. Model Results & Calibration
+We evaluated the model using a Stratified 80/20 Train-Test split to ensure robust performance.
+*   **Performance:** The model achieved an **AUC of 0.89** on the test set.
+*   **Interpretation:** This high Area Under Curve score indicates precise discrimination between winning and losing positions, validating the model as a reliable "Virtual Expert" for simulating counterfactual strategic scenarios.

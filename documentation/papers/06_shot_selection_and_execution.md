@@ -1,18 +1,13 @@
-# Step 6: Shot Selection & The "Null Result"
-*Or: "Why strategy is solved, and execution is king."*
+# Part 6: Shot Selection & Execution Analysis
 
-We answered "When" to use the Power Play (Step 4).
-Now we ask **"How"** to execute it.
-Specifically: *"Where exactly should we place the Corner Guard to guarantee a big score?"*
+## 1. Spatial Optimization Hypothesis
+Following the strategic identification of *when* to use the Power Play, we investigated *how* to execute it. Specifically, we tested the hypothesis that successful outcomes are correlated with a distinct spatial distribution of the Corner Guard.
 
-## 1. The Hypothesis
-We hypothesized that winning teams might have a "Secret Spot."
-*   Maybe they place the guard slightly higher ($Y > 1200$) to block more angles?
-*   Maybe they place it tighter to the center ($X \approx 765$) to force play inside?
+### Cohort Analysis
+We segmented Power Play ends ($N=598$) into two performance cohorts:
+1.  **High-Yield (Success):** Ends resulting in a score of $\ge 3$ points.
+2.  **Low-Yield (Failure):** Ends resulting in a Steal ($\le 0$ points).
 
-We set up a test to compare:
-1.  **Group A (Big Winners):** Teams that scored 3+ points in a Power Play End.
-2.  **Group B (Losers):** Teams that gave up a Steal (0 points or worse).
 
 ## 2. The Methodology
 We used our Coordinate System from Step 5.
@@ -39,19 +34,11 @@ Instead, we found this:
 Since our scale is $\lambda = 100$ px/ft, a difference of 6 pixels is **0.06 feet**, or roughly **0.7 inches**.
 In a game played on a 150-foot sheet of ice, with 40-pound rocks, a difference of 0.7 inches is **statistically negligible**.
 
-## 4. The Interpretation: Strategic Equilibrium
-Does this mean the analysis failed? **No.**
-It teaches us something profound about the state of professional Curling.
+## 4. Interpretation: Strategic Equilibrium
+The lack of spatial separation confirms a **Strategic Equilibrium**.
+*   The "Optimal Placement" is known and universally adopted by elite teams.
+*   Variance in outcome is therefore driven by **Execution** (precision) and subsequent shot management, rather than initial strategic differentiation.
 
-It suggests that **Strategic Equilibrium** has been reached.
-*   Everyone knows the *best* place to put the rock.
-*   The "Optimal Strategy" is common knowledge.
-
-Therefore, the variance in outcome ($Win$ vs $Loss$) is **not restricted by Strategy, but by Execution.**
-*   The teams that win aren't placing the rock in a "smarter" spot.
-*   They are simply hitting the spot they aimed for, while the losers are missing by a few inches later in the end, or failing to curl around the guard properly.
-
-## 5. Conclusion for Coaches
-Do not waste time trying to reinvent the "Magical Guard Placement." The data proves it doesn't exist.
-*   **Focus on Mechanics:** The gain comes from hitting the standard spot 100% of the time.
-*   **Focus on Timing:** As shown in Step 4, the *decision to call* the Power Play (Strategy) matters more than the *placement* of the stones (Tactics), because the Tactics are already optimized.
+## 5. Implications for Training
+*   **Mechanics over Tactics:** Since the initial guard placement is standardized, training should focus on the consistency of hitting this coordinate ($\sigma^2_{placement} \to 0$).
+*   **Decision Weight:** The strategic leverage lies in the *binary decision* to call the Power Play (as derived in Part 4), rather than the micro-adjustments of stone placement.

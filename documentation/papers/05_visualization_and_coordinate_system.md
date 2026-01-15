@@ -1,23 +1,20 @@
-# Step 5: Visualization & Mapping
-*Or: "Drawing a map when you only have GPS coordinates."*
+# Part 5: Visualization & Mapping
 
-Finally, we looked at the stone locations. The user wanted to see "The Dots."
-We opened the file `Stones.csv` and found a list of coordinates $(x_i, y_i)$.
-To a human, these numbers are meaningless. We had to draw a map.
+## 1. Coordinate System Calibration
+To map the raw stone coordinates $(x_i, y_i)$ to physical sheet dimensions, we performed a density-based spatial analysis.
 
-## 1. Statistical Forensics
-We didn't know where the "House" (the target) was. The data didn't tell us. So we used detective work.
-We modeled the stone locations as a 2D density function:
+### Centroid Identification ("The Button")
+We modeled the aggregate stone locations as a 2D probability density function:
 $$
 D(x, y) = \frac{1}{N} \sum_{i=1}^{N} \mathbb{I}(x_i, y_i)
 $$
 
-**The Result:**
-We observed the centroid $(\mu_x, \mu_y)$ of the cluster density:
+**Calibration Point:**
+The centroid $(\mu_x, \mu_y)$ of the high-density cluster corresponds to the geometric center of the House (the "Button").
 $$
 \mu_x \approx 765, \quad \mu_y \approx 740
 $$
-This point represents the **Button** (the center of the rings).
+
 
 ## 2. Finding the Scale ($\lambda$)
 We needed to determine the conversion factor $\lambda$ (pixels per foot).
@@ -38,12 +35,10 @@ We drew circles for the standard rings:
 
 When we overlaid the actual data on top of our drawing, it lined up perfectly. This confirms our linear transformation model was correct.
 
-## 4. Why this matters
-Now that we have this map, we can answer the tactical questions.
-*   *"Where is the optimal guard placement coordinate $(x_g, y_g)$?"*
-*   We can analyzing the spatial distribution of winning vs losing guards to find the optimal coordinate vector:
+## 4. Strategic Application
+This coordinate mapping enables precise spatial analysis, specifically for evaluating guard placement efficacy.
+*   **Optimization Function:** We can now determine the optimal guard vector $\vec{v}_{opt}$ by maximizing the conditional probability of winning:
 $$
 \vec{v}_{opt} = \text{argmax}_{\vec{v}} P(Win | \vec{v})
 $$
-    
-And that, class, is how you use Data Science to solve Curling.
+

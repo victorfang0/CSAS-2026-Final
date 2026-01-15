@@ -1,35 +1,19 @@
-# Step 2: Data Engineering
-*Or: "Why real-world data is always broken, and how we fixed it."*
+# Part 2: Data Engineering
 
-Alright, we have our strategy. Now we need data. We downloaded two files: `Ends.csv` (the scoreboard) and `Games.csv` (the teams).
-I opened them up, and immediately, I found a disaster.
+## 1. Data Cleaning & Integration
+The dataset consisted of two primary files: `Ends.csv` (score data) and `Games.csv` (match metadata). A critical initial step involved resolving identifier ambiguities.
 
-## 1. The "John Smith" Problem (ID Collisions)
-Imagine if our school database listed students only by "First Name".
-If I searched for "John", I’d get John from 9th grade, John from 10th grade, and John the janitor. I wouldn't know who is who.
+### Identifier Resolution (Composite Keys)
+The `GameID` field is not globally unique; it is only unique within a specific `CompetitionID`. Merging solely on `GameID` would result in severe data leakage (mixing ends from different tournaments).
+*   **Solution:** We constructed a composite primary key using (`CompetitionID`, `GameID`) to ensure 1:1 mapping between match metadata and end-by-end scoring.
 
-**This happened in our data.**
-*   The file listed `GameID: 1`. 
-*   But "Game 1" happened in the Olympics. And "Game 1" happened in the World Cup. And "Game 1" happened in the National Qualifiers.
-*   When we merged them, the computer thought they were all the same game! It was mixing up Olympic scores with High School scores.
 
-### The Fix: Composite Keys
-We had to create a "Full Name" for each game.
-Instead of looking for `GameID`, we told the computer to group by **Two Columns**: `CompetitionID` + `GameID`.
-*   *Before:* "Game 1" (Ambiguous).
-*   *After:* "Competition 5, Game 1" (Unique).
-**Lesson:** Always check your identifiers. Unique IDs are rarely unique in the real world.
+## 2. Feature Engineering
+Reflecting the nuances of Curling in a machine-readable format required constructing state-based features.
 
-## 2. Translating "Curling" to "Spreadsheet"
-Understanding the game isn't enough; we have to explain it to a computer using numbers. This is called **Feature Engineering**.
-
-*   **The Hammer (Last Rock):** 
-    *   *Concept:* The team that throws the last rock has a huge advantage. They usually score.
-    *   *The Rule:* If you score in an end, you give the Hammer to the other team. If you score 0, you keep it.
-    *   *The Code:* We wrote a loop that tracked who scored. If Team A scored > 0, we flipped the value `Hammer_Team` to Team B.
+*   **Hammer (Last Rock Advantage):** 
+    *   Determined by tracking scoring history. The team that scores > 0 points relinquishes the Hammer in the subsequent end. We implemented logic to propagate this state end-accordingly.
 *   **Score Differential:**
-    *   *Concept:* Are we winning or losing?
-    *   *The Code:* We simply calculated `My_Total_Score - Opponent_Total_Score`.
-    *   *Why:* Being down by 2 is very different from being down by 20. The model needs to know the pressure.
+    *   Calculated as `Own_Score - Opponent_Score` relative to the team holding the decision rights. This captures the urgency of the game state (e.g., trailing by 2 vs. leading by 1).
 
-We saved this clean, translated data into `modeling_data.csv`. Now, the computer is ready to learn.
+The processed dataset was serialized to `modeling_data.csv` for training.
